@@ -9,4 +9,7 @@ router
   .delete(controller.dropQuestions);
 
 router.get("/results", controller.getResults);
+
+
+router.get("/",controller.home);
 module.exports = router;

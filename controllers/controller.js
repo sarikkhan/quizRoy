@@ -1,3 +1,5 @@
+const cron=require('node-cron');
+
 exports.getQuestions = async (req, res, next) => {
   res.status(200).json({
     message: "you got all questions here",
@@ -20,5 +22,12 @@ exports.dropQuestions = async (req, res, next) => {
 exports.getResults = async (req, res, next) => {
   res.status(200).json({
     message: "got the result",
+  });
+};
+
+exports.home= (req,res,next)=>{
+
+  return res.status(200).json({
+    message: "quiz will start at 9:30pm"
   });
 };
