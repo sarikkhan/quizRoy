@@ -10,6 +10,4 @@ router
 
 router.get("/results", controller.getResults);
 
-
-router.get("/",controller.home);
 module.exports = router;

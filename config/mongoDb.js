@@ -1,6 +1,6 @@
-const mongoose= require('mongoose');
+const mongoose = require("mongoose");
 
-const db=mongoose
+const db = mongoose
   .connect(process.env.DB_URL)
   .then(() => {
     console.log("database connected");
@@ -9,4 +9,4 @@ const db=mongoose
     console.log("database err ", err);
   });
 
-module.exports=db;
+module.exports = db;
