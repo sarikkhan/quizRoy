@@ -23,6 +23,7 @@ const controller=require("./controllers/controller")
 app.get("/api", (req, res, next) => {
   controller.home(req, res,io);
 });
+app.post("/api/insertQuestion",controller.insertQuestions)
 app.get("/", async (req, res, next) => {
   try {
     res.status(200).json({ message: "get answer " });

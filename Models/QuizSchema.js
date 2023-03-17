@@ -20,8 +20,24 @@ const QuizSchema = new mongoose.Schema({
       },
       options: [
         {
-          type: String,
-          required: true,
+          option1:{
+              type: String,
+              required: true,            
+          },
+          option2:{
+            type:String,
+            required:true
+          },
+          option3:{
+            type:String,
+            required:true
+          },
+          option4:{
+            type:String,
+            required:true
+          }
+          // type: String,
+          // required: true,
         },
       ],
       answer: {
@@ -31,15 +47,10 @@ const QuizSchema = new mongoose.Schema({
     },
   ],
   participants: [ParticipantSchema],
-  createdBy: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    // required: true,
-  },
-  winner: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Participant",
-  },
+  // winner: {
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: "Participant",
+  // },
   completed: {
     type: Boolean,
     default: false,
