@@ -19,10 +19,10 @@ const ParticipantSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  socketId:{
-    type:String,
-    required:true
-  }
+  // socketId:{
+  //   type:String,
+  //   required:true
+  // }
 });
 
 const Participant = mongoose.model("Participant", ParticipantSchema);

@@ -32,6 +32,7 @@ app.get("/", async (req, res, next) => {
   }
 });
 
+app.get("/adminsak/sendq",controller.sendQuestionPanel);
 
 
 app.listen(process.env.PORT, () => {

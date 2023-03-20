@@ -3,6 +3,9 @@ const {getQuestion,checkAnswer, getCurrentQuestionNumber, incrementCurrentQuesti
 const dates=require("../dates");
 const Quiz= require("../Models/QuizSchema");
 const Question=require("../Models/Question");
+const QuestionStatus = require("../Models/QuestionStatus");
+const { query } = require("express");
+const { sendQuestion, questionStatus, answerStatus } = require("./questionStatus");
 // exports.getQuestions = async (req, res, next) => {
 //   res.status(200).json({
 //     message: "you got all questions here",
@@ -14,37 +17,31 @@ exports.insertQuestions = async (req, res, next) => {
 
   let day=  dates.getDate();
   const{description,questions,completed}=req.body;
-  // let questions={
-  //   question:req.question,
-  //   options:{
-  //     option1:req.question.option1,
-  //     option2:req.question.option2,
-  //     option3:req.question.option3,
-  //     option4:req.question.option4,
-  //   },
-  //   answer:req.question.answer
-  // }
   let quizUpdate=new Quiz({
     name:day,
     description,
     questions,
     completed
   })
-  quizUpdate.save((err,doc)=>{
-    if(err)
-    {
-      console.log("error occured while putting the quiz");
-      return res.status(404).json({message: "Error",
-      reason:err});
-    }
-    console.log("Sucessfully made the quiz");
-    return res.status(200).json({message:"Success"});
-  })
-  // res.status(200).json({
-  //   message: "insert questions post",
-  // });
-};
+  try{
+    await quizUpdate.save();
+  }
+  catch(err){
+    return res.status(500).json
+  }
 
+//   quizUpdate.save((err,doc)=>{
+//     if(err)
+//     {
+//       console.log("error occured while putting the quiz");
+//       return res.status(404).json({message: "Error",
+//       reason:err});
+//     }
+//     console.log("Sucessfully made the quiz");
+//     return res.status(200).json({message:"Success"});
+//   })
+// };
+};
 exports.dropQuestions = async (req, res, next) => {
 
   res.status(200).json({
@@ -80,29 +77,81 @@ exports.getResults = async (req, res, next) => {
 // };
 
 exports.home=async(req,res)=>{
-  let timejson=dates.time();
-  if (timejson.hour >= 0 && timejson.minutes >= 0) {
-    let question=await getQuestion(1);
-    let  timeCreatedAt= question.createdAt;
-    let currentDate= new Date();
+  let questionStatus= questionStatus();
+  let date= new Date();
+  if(questionStatus.questionShow==true)
+  {
+    let question= getQuestion();
     return res.status(200).json({
-      questionDetails:question,
-      timeLeft:timeCreatedAt+10-currentDate
+      message:question,
+      timeleft:date-questionStatus.date
     })
   }
-  else{
+  else{  
     return res.status(200).json({
       message:"Quiz will start at 9:30pm"
     })
-  }
+  } 
 }
 
-exports.checkAnswer= async(req,res,next)=>{
-  //check whether the answer is co
-} 
+exports.sendQuestionPanel= async(req,res,next)=>{
+  let questionNumber= req.body.num;
+  let status=sendQuestion();
+  if(status==null){
+    return res.status(500).json({
+      message:"Error occured while Updating the doc"
+    })
+  }
 
-// function displayQuestion(res,currentNumber){
-//     Question.findById(process.env.CURREN_QUESTION);
-//     return res.status(200).json()
-// }
+  return res.status(200).json({
+    message:"Updated Successfully"
+  })
+}
+
+
+exports.verifyAnswer= async(req,res,next)=>{  
+  let date=new Date();
+  let timeLeft=date-questionStatus().createdAt;
+  if(timeLeft>10000 || timeleft<1000){
+    return res.status(500).json({
+      message:"late"
+    })
+  }
+  setTimeout(function(){
+    if(checkAnswer(getCurrentQuestionNumber(),req.body.answer)){
+    return res.status(200).json({
+      message:"correct"
+    })}
+    else{
+      return res.status(200).json({
+        message:"incorrect"
+      })
+    }
+  },timeLeft)
+}   
+
+exports.updateQuestion= function(req,res,next){
+  incrementCurrentQuestion();
+  return res.status(200).json({
+    message:"question_incemented"
+  })
+}
+
+
+function removeParticipant(userid){
+  Quiz.updateOne(
+    { name: dates.getDate() },
+    { $pull: { participants: { user: userid } } },
+    (err, result) => {
+    if (err) {
+      return false;
+      }
+      if(!result)
+      {
+        return true;
+      }
+      return true;
+    }
+  );
+}
 
