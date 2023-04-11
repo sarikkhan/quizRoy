@@ -24,6 +24,7 @@ app.get("/api", (req, res, next) => {
   controller.home(req, res,io);
 });
 app.post("/api/insertQuestion",controller.insertQuestions)
+app.post("/api/getQuestion",controller.getQuestion)
 app.get("/", async (req, res, next) => {
   try {
     res.status(200).json({ message: "get answer " });
@@ -31,8 +32,9 @@ app.get("/", async (req, res, next) => {
     res.json({ message: "error occured" });
   }
 });
+app.post("/api/signup",controller.signUp);
 
-app.get("/adminsak/sendq",controller.sendQuestionPanel);
+// app.get("/adminsak/sendq",controller.sendQuestionPanel);
 
 
 app.listen(process.env.PORT, () => {
