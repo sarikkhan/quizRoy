@@ -13,20 +13,15 @@ const QuestionBank = new mongoose.Schema({
         type: Number,
         required: true
     },
-    category: {
+    field: {
         type: String,
-        enum: ['hard', 'easy'],
+        enum: ['football', 'basketball', 'tennis', 'WWE', 'NFL', 'F1'],
         required: true
     },
-    field:{
-        type:String,
-        enum:['football','basketball','tennis','WWE','NFL','F1'],
-        required:true
-    },
-    isVisitedBy:[{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"UserSchema",
-        default:null
-    }]  ,
-    });
+    isVisitedBy: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "UserSchema",
+        default: null
+    }],
+});
 module.exports = mongoose.model("QuestionBank", QuestionBank);

@@ -3,12 +3,12 @@ const Schema = mongoose.Schema;
 const answerReceive = new Schema(
   {
     answerReceive: {
-        type:Boolean,
-        required: true,
+      type:Boolean,
+      required: true,
     },
     createdAt:{
-        type:Date,
-        required:true
+      type:Date,
+      required:true
     }
   },
   { timestamps: true }

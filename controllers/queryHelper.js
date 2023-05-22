@@ -14,10 +14,8 @@ module.exports.getQuestionList= async function(query){
 }
 
 module.exports.updateUserInQuestion= function(query){
-    console.log("herer it is",query.userId);
     return QuestionBank.findByIdAndUpdate(query._id,
-    { $addToSet: { isVisitedBy: query.userId  },setDefaultsOnInsert: true },
-  { new: true })
+    { $addToSet: { isVisitedBy: query.userId  },setDefaultsOnInsert: true })
 }
 
 module.exports.updateCurrentQuestion= function(query,questionNumber){

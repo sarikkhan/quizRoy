@@ -134,6 +134,17 @@ exports.home=async(req,res)=>{
 //   );
 // }
 
+module.exports.startQuiz=async(req,res)=>{
+  try{
+    const {question,options}=await getQuestionService(req);
+  }
+  catch(err)
+  {
+    console.log("error in startQuiz");
+    return res.status(500).json({message:"Error occured while starting the quiz"});
+  }
+}
+
 
 module.exports.getQuestion= async (req,res)=>{
     try{
